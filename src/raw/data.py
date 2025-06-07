@@ -19,3 +19,19 @@ def rewrite_data(new_data: dict) -> None:
         json.dump(new_data, file, ensure_ascii=False, indent=4)
 
     return None
+
+
+# custom methods
+
+def get_tags() -> list:
+    data = read_data()
+    tags: list = get_field(data, 'tags')
+
+    return tags
+
+
+def get_active_session() -> dict | None:
+    data = read_data()
+    active_session = get_field(data, 'active_session')
+
+    return active_session

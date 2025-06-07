@@ -1,6 +1,6 @@
 import click
 
-from .data import read_data, get_field, rewrite_data
+from .data import rewrite_data, get_tags
 
 
 @click.command('tags')
@@ -9,8 +9,7 @@ def tag(
     new: str | None
 ):
 
-    data = read_data()
-    mytags: list = get_field(data, 'tags')
+    mytags: list = get_tags()
 
     if new:
         if new in mytags:
