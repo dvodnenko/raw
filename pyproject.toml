@@ -1,6 +1,6 @@
 [project]
 name = "raw"
-version = "0.1.1"
+version = "0.2.1"
 description = "A CLI tool for tracking study and work time"
 authors = [
     {name = "dvodnenko",email = "thekovalskii@gmail.com"}
@@ -11,6 +11,7 @@ packages = [
 readme = "README.md"
 requires-python = "^3.10"
 dependencies = [
+    "click (>=8.2.1,<9.0.0)"
 ]
 
 

@@ -27,8 +27,13 @@ def get_tags() -> list:
     data = read_data()
     tags: list = get_field(data, 'tags')
 
-    return tags
+    return tags if tags else []
 
+def get_sessions() -> list[dict]:
+    data = read_data()
+    sessions: list = get_field(data, 'sessions')
+
+    return sessions if sessions else []
 
 def get_active_session() -> dict | None:
     data = read_data()

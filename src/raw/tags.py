@@ -1,6 +1,6 @@
 import click
 
-from .data import rewrite_data, get_tags
+from .data import rewrite_data, get_tags, get_sessions, get_active_session
 
 
 @click.command('tags')
@@ -9,21 +9,25 @@ def tag(
     new: str
 ):
 
-    mytags: list = get_tags()
-    mytags = mytags if mytags else []
+    mytags = get_tags()
 
     if new:
         if new in mytags:
             click.echo(f'tag {new} already exists')
             exit(1)
         else:
+            mysessions = get_sessions()
+            active_session = get_active_session()
+
             new_data = {
-                'tags': [*mytags, new]
+                'tags': [*mytags, new],
+                'active_session': active_session,
+                'sessions': [*mysessions]
             }
 
             rewrite_data(new_data)
             click.echo(f'new tag - {new}')
-            exit(1)
+            exit(0)
     else:
         if mytags == []:
             click.echo('you do not have tags yet')
