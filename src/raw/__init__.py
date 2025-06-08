@@ -3,7 +3,7 @@ from importlib.metadata import version
 import click
 
 from .tags import tag
-from .sessions import b, f
+from .sessions import begin_session, finish_session, pause_session
 
 
 @click.command('version')
@@ -27,6 +27,7 @@ raw.add_command(show_version)
 raw.add_command(tag)
 
 # sessions
-raw.add_command(b, name='b')
-raw.add_command(b, name='s')
-raw.add_command(f)
+raw.add_command(begin_session, name='b')
+raw.add_command(begin_session, name='s') # s - means "start"
+raw.add_command(finish_session, name='f')
+raw.add_command(pause_session, name='p')
