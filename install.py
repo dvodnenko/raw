@@ -1,11 +1,11 @@
-import os, subprocess
+import os, subprocess, json
 from pathlib import Path
 
 
 REQUIRED_PYTHON_VERSION = '3.10'
 
 
-def generate_directory_path() -> str:
+def generate_root_path() -> str:
     current_dir = os.getcwd()
     print(f'currently in {current_dir} directory')
 
@@ -15,8 +15,7 @@ def generate_directory_path() -> str:
     parts = path.split('/')
     username = parts[2]
 
-    dir_path = f'/Users/{username}/Documents'
-    folder = Path(dir_path)
+    dir_path = f'/Users/{username}'
 
     return dir_path
 
@@ -80,21 +79,38 @@ def clone_repo(clone_to):
 
     os.chdir(clone_to)
     os.system('pwd')
+
+def create_data_file(root_dir):
+
+    if Path(f'{root_dir}/.rawdata.json').exists():
+       return
+
+    os.chdir(root_dir)
+    os.system('touch .rawdata.json')
+
+    basic_data = {
+        'tags': [],
+        'active_session': {},
+        'sessions': []
+    }
+
+    with open(f'{root_dir}/.rawdata.json', 'w', encoding='utf-8') as file:
+        json.dump(basic_data, file, ensure_ascii=False, indent=4)
+
+def install_via_pipx(raw_dir):
+    os.chdir(raw_dir)
+
     os.system('pipx uninstall raw')
     os.system('pipx install .')
-
-def create_data_file(dir):
-    os.chdir(dir)
-    os.system('touch data.json')
-    # os.remove('~/.raw')
 
 
 def install():
 
     # creating /raw directory that will store raw
     dir_path = input('enter path to the folder(press enter to use ~/Documents):')
+    root_path = generate_root_path()
     if dir_path == '':
-        dir_path = generate_directory_path()
+        dir_path = f'{root_path}/Documents'
 
     if not Path(dir_path).exists():
         print(f'Such folder does not exist: {dir_path}')
@@ -113,7 +129,23 @@ def install():
     # clone repo
     clone_repo(clone_to=raw_dir_path)
 
-    create_data_file(raw_dir_path)
+    create_data_file(root_path)
+
+    os.chdir(raw_dir_path)
+
+    with open('src/raw/data.py', 'r', encoding='utf-8') as file:
+        content = file.readlines()
+
+    del content[0]
+
+    with open('src/raw/data.py', 'w', encoding='utf-8') as file:
+        file.write(f"DATA_PATH = '{root_path}/.rawdata.json'")
+    
+    with open('src/raw/data.py', 'a', encoding='utf-8') as file:
+        file.write('\n')
+        file.writelines(content)
+
+    install_via_pipx(raw_dir_path)
 
     os.system('clear')
 
@@ -122,7 +154,7 @@ def install():
     print(f'✅installed poetry: {poetry_version}')
     print(f'✅installed pipx: {pipx_version}')
     print(f'✅cloned raw repo')
-    print(f'✅created data file ({raw_dir_path}/data.json)')
+    print(f'✅created data file ({root_path}/.rawdata.json)')
 
 
 install()

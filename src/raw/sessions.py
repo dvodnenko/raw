@@ -54,8 +54,6 @@ def f():
     mytags = get_tags()
     mysessions = get_sessions()
 
-    print(len(mysessions))
-
     start_time = datetime.fromisoformat(active_session['start time'])
     end_time = datetime.now()
     timedelta = (end_time - start_time).seconds
@@ -88,4 +86,3 @@ def f():
 
     click.echo('session finished')
     click.echo('')
-
