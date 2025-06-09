@@ -1,4 +1,8 @@
 import json
+from pathlib import Path
+
+
+DATA_PATH = Path.home() / '.rawdata.json'
 
 
 def read_data() -> dict:
