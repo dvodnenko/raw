@@ -1,19 +1,27 @@
 [project]
-name = "raw"
+name = "rawtt"
 version = "0.3.1"
 description = "A CLI tool for tracking study and work time"
+
 authors = [
     {name = "dvodnenko",email = "thekovalskii@gmail.com"}
 ]
+
 packages = [
     { include = "raw", from = "src" }
 ]
+
 readme = "README.md"
-requires-python = "^3.10"
+requires-python = ">=3.10"
 dependencies = [
     "click (>=8.2.1,<9.0.0)"
 ]
 
+exclude = [
+    "notes.txt",
+    "poetry.lock",
+    "versions.txt"
+]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
