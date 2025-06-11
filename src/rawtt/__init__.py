@@ -8,7 +8,7 @@ from .sessions import begin_session, finish_session, pause_session
 
 @click.command('version')
 def show_version():
-    v = version('raw')
+    v = version('rawtt')
 
     click.echo(f'raw {v}')
 
