@@ -1,6 +1,6 @@
 [project]
 name = "rawtt"
-version = "0.3.3"
+version = "0.4.0"
 description = "A CLI tool for tracking study and work time"
 
 authors = [
@@ -20,7 +20,8 @@ dependencies = [
 exclude = [
     "notes.txt",
     "poetry.lock",
-    "versions.txt"
+    "versions.txt",
+    "tests/"
 ]
 
 [build-system]

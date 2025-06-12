@@ -5,7 +5,7 @@ import click
 
 from .data import rewrite_data, get_tags, get_active_session, get_sessions, read_data
 
-@click.command()
+@click.command('begin')
 @click.argument('tags', nargs=-1)
 def begin_session(tags: tuple):
 
@@ -43,7 +43,7 @@ def begin_session(tags: tuple):
 
     click.echo('session started')
 
-@click.command('f')
+@click.command('finish')
 def finish_session():
 
     active_session = get_active_session()
@@ -90,7 +90,7 @@ def finish_session():
     click.echo('session finished')
     click.echo('')
 
-@click.command('p')
+@click.command('pause')
 def pause_session():
 
     active_session = get_active_session()

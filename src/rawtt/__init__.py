@@ -27,7 +27,8 @@ raw.add_command(show_version)
 raw.add_command(tag)
 
 # sessions
-raw.add_command(begin_session, name='b')
-raw.add_command(begin_session, name='s') # s - means "start"
-raw.add_command(finish_session, name='f')
-raw.add_command(pause_session, name='p')
+raw.add_command(begin_session, name='begin')
+raw.add_command(begin_session, name='start')
+raw.add_command(finish_session, name='finish')
+raw.add_command(finish_session, name='stop')
+raw.add_command(pause_session, name='pause')
