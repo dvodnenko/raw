@@ -1,6 +1,6 @@
 [project]
-name = "rawtt"
-version = "0.4.0"
+name = "raww"
+version = "0.5.0"
 description = "A CLI tool for tracking study and work time"
 
 authors = [
@@ -8,7 +8,7 @@ authors = [
 ]
 
 packages = [
-    { include = "rawtt", from = "src" }
+    { include = "raww", from = "src" }
 ]
 
 readme = "README.md"
@@ -30,4 +30,4 @@ build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry.scripts]
-raw = "rawtt:raw"
+raw = "raww:raw"
