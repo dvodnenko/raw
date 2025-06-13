@@ -1,5 +1,4 @@
-from datetime import datetime
-import time
+import time, datetime
 
 import click
 
@@ -27,13 +26,13 @@ def begin_session(tags: tuple):
             click.echo(f'tag {tag} does not exist yet')
             exit(1)
 
-    start_time = datetime.now()
+    start = datetime.datetime.now()
 
     new_data = {
         'tags': [*mytags],
         'active_session': {
             'tags': [*tags],
-            'start time': f'{start_time}',
+            'start': f'{start}',
             'breaks': 0
         },
         'sessions': [*sessions]
@@ -55,10 +54,16 @@ def finish_session():
     mytags = get_tags()
     mysessions = get_sessions()
 
-    start_time = datetime.fromisoformat(active_session['start time'])
-    end_time = datetime.now()
+    # start & end info
+    start_datetime: datetime = datetime.datetime.fromisoformat(active_session.get('start'))
+    start_date = datetime.date(start_datetime.year, start_datetime.month, start_datetime.day)
+    start_time = datetime.time(start_datetime.hour, start_datetime.minute, start_datetime.second, start_datetime.microsecond)
+
+    end_datetime = datetime.datetime.now()
+    end_date = datetime.date(end_datetime.year, end_datetime.month, end_datetime.day)
+    end_time = datetime.time(end_datetime.hour, end_datetime.minute, end_datetime.second, end_datetime.microsecond)
     breaks: int = active_session.get('breaks')
-    timedelta = ((end_time - start_time).seconds) - breaks
+    timedelta = ((end_datetime - start_datetime).seconds) - breaks
     hours = timedelta // 3600
     timedelta -= hours*3600
     minutes = timedelta // 60
@@ -73,8 +78,14 @@ def finish_session():
 
     new_session = {
         'tags': [*(active_session.get('tags'))],
-        'start time': f'{start_time}',
-        'end time': f'{end_time}',
+        'start': {
+            'date': f'{start_date}',
+            'time': f'{start_time}'
+        },
+        'end time': {
+            'date': f'{end_date}',
+            'time': f'{end_time}'
+        },
         'breaks': breaks,
         'total time': total_time
     }
