@@ -1,6 +1,6 @@
 import click
 
-from .data import Data
+from .data import Data, Tag
 
 
 @click.command('tags')
@@ -18,14 +18,17 @@ def tag(
 
     raw_directory = ctx.obj['raw_directory']
     data = Data(raw_directory)
-    mytags = data.tags
+    mytags = []
+    for t in data.tags:
+        mytags.append(t.title)
 
     if new:
         for newtag in new:
             if newtag in mytags:
                 click.echo(f'🦇 tag {newtag} already exists')
             else:
-                data.tags = [*data.tags, newtag]
+                newtag_instance = Tag(title=newtag)
+                data.tags = [*data.tags, newtag_instance]
                 click.echo(f'🦇 new tag - {newtag}')
     else:
         if mytags == []:

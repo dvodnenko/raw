@@ -3,6 +3,7 @@ from pathlib import Path
 
 from .active_session import ActiveSession
 from .session import Session
+from .tag import Tag
 from ..views import create_file_if_not_exists
 
 
@@ -18,7 +19,7 @@ class Data:
         self.__tags_path = dir / self.__ts_df_title
         self.__sessions_path = dir / self.__ss_df_title
         self.__as_path = self.dir / self.__as_df_title
-    def begin_session(self, tags: list[str], msg: str) -> ActiveSession:
+    def begin_session(self, tags: list[Tag], msg: str) -> ActiveSession:
         return ActiveSession._begin(tags, msg, path=self.__as_path)
     def finish_session(self, summary: str) -> Session:
         active_session = ActiveSession._finish(summary=summary, path=self.__as_path)
@@ -26,11 +27,11 @@ class Data:
         return active_session
 
     @property
-    def tags(self) -> list[str]:
+    def tags(self) -> list[Tag]:
         create_file_if_not_exists(self.__tags_path, [])
 
         with open(self.__tags_path, 'rb') as file:
-            tags: list[str] = pickle.load(file)
+            tags: list[Tag] = pickle.load(file)
         return tags
     @tags.setter
     def tags(self, newtags):
@@ -45,7 +46,7 @@ class Data:
         create_file_if_not_exists(self.__sessions_path, [])
 
         with open(self.__sessions_path, 'rb') as file:
-            sessions: list[str] = pickle.load(file)
+            sessions: list[Session] = pickle.load(file)
         return sessions
     @sessions.setter
     def sessions(self, newsessions):

@@ -1,10 +1,11 @@
 from .time import TimeDelta, TimePoint
+from .tag import Tag
 
 
 class Session:
     def __init__(
             self, 
-            tags: list[str], 
+            tags: list[Tag], 
             msg: str,
             summary: str,
             start: TimePoint, 
