@@ -3,13 +3,12 @@ from pathlib import Path
 
 from .session import Session
 from .time import TimePoint
-from .tag import Tag
 
 
 class ActiveSession:
     def __init__(
             self, 
-            tags: list[Tag], 
+            tags: list[str], 
             msg: str,
             start: TimePoint,
             breaks: int
@@ -19,7 +18,7 @@ class ActiveSession:
         self.start = start
         self.breaks = breaks
     @staticmethod
-    def _begin(tags: list[Tag], msg: str, path: Path): # !underhood method!
+    def _begin(tags: list, msg: str, path: Path): # !underhood method!
         active_session = ActiveSession(tags, msg, TimePoint.now(), 0)
         with open(path, 'wb') as file:
             pickle.dump(active_session, file)

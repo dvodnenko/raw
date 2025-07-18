@@ -2,7 +2,7 @@ import time, datetime
 
 import click
 
-from .data import Data, Session, Tag
+from .data import Data, Session
 
 
 def sort_sessions_by_date_range(sessions: list[Session], dr: str):
@@ -80,7 +80,7 @@ def check_sessions(ctx: click.Context, dr: str, lxd: int):
         else:
             tagsstr = 'tags: '
             for tag in session.tags:
-                tagsstr += click.style(f' {tag.title} ', bg='magenta', fg='black')
+                tagsstr += click.style(f' {tag} ', bg='magenta', fg='black')
                 tagsstr += ' '
         text.append(f'{tagsstr}\n')
 
@@ -89,7 +89,7 @@ def check_sessions(ctx: click.Context, dr: str, lxd: int):
 
         text.append('\n\n\n')
     click.echo_via_pager(text)
-
+        
 
 @click.command('begin')
 @click.option('--msg', '-m', default='')
@@ -108,14 +108,13 @@ def begin_session(ctx: click.Context, tags: str, msg: str):
         click.echo('🦇 there is already an active session')
         exit(1)
     
-    mytags = [tag.title for tag in data.tags]
+    mytags = data.tags
 
     for tag in tags:
         if tag not in mytags:
             click.echo(f'🦇 tag {tag} does not exist yet')
             exit(1)
 
-    tags: list[Tag] = [Tag(title=t) for t in tags]
     active_session = data.begin_session(tags, msg)
 
     click.echo('🦇 session started')
@@ -126,11 +125,11 @@ def begin_session(ctx: click.Context, tags: str, msg: str):
     if tags == []:
         click.echo('no tags provided')
     elif len(tags) == 1:
-        click.echo(f'tag - {tags[0].title}')
+        click.echo(f'tag - {tags[0]}')
     else:
-        click.echo(f'tags: * {tags[0].title}')
+        click.echo(f'tags: * {tags[0]}')
         for tag in tags[1:]:
-            click.echo(f'      * {tag.title}')
+            click.echo(f'      * {tag}')
 
 @click.command('finish')
 @click.pass_context
@@ -166,11 +165,11 @@ def finish_session(ctx: click.Context):
     if tags == []:
         click.echo('there were no tags in the session')
     elif len(tags) == 1:
-        click.echo(f'tags: {tags[0].title}')
+        click.echo(f'tags: {tags[0]}')
     else:
-        click.echo(f'tags: * {tags[0].title}')
+        click.echo(f'tags: * {tags[0]}')
         for tag in tags[1:]:
-            click.echo(f'      * {tag.title}')
+            click.echo(f'      * {tag}')
     click.echo(f'you worked for {work_time_info}')
 
 @click.command('pause')
