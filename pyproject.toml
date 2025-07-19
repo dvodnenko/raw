@@ -1,7 +1,7 @@
 [project]
 name = "raw"
-version = "2.0.0"
-description = "A CLI tool for tracking study and work time🦇"
+version = "2.0.1"
+description = "A CLI Tool for Tracking Study and Work Time 🦇"
 
 authors = [
     {name = "dvodnenko",email = "thekovalskii@gmail.com"}
